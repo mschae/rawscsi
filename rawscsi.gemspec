@@ -7,10 +7,10 @@ Gem::Specification.new do |spec|
   spec.name          = "rawscsi"
   spec.version       = Rawscsi::VERSION
   spec.authors       = ["Steven Li"]
-  spec.email         = ["sli@bleacherreport.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.email         = ["StevenJLi@gmail.com"]
+  spec.description   = %q{Rails Amazon Web Services Cloud Search Interface}
+  spec.summary       = %q{Adds a service object which searches over search domain and returns AR objects}
+  spec.homepage      = "https://github.com/StevenJL/rawscsi"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)

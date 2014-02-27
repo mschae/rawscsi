@@ -2,6 +2,8 @@
 
 Rails Amazon Web Services Cloud Search Interface
 
+Here's the official aws documentation: http://docs.aws.amazon.com/cloudsearch/latest/developerguide/searching.html
+
 ## Installation
 
 Add this line to your application's Gemfile:
