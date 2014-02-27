@@ -20,7 +20,7 @@ Or install it yourself as:
 
 Instantiate a search helper:
 
-    my_search_helper = Rawsci::SearchHelper.new(
+    my_search_helper = Rawscsi::SearchHelper.new(
       :model => 'Song',
       :domainname => 'good_songs',       
       :domainid => 'a1b2c3d4e5f6g7h8i',
