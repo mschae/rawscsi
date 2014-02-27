@@ -18,10 +18,27 @@ Or install it yourself as:
 
 ## Usage
 
-Instantiate the service object:
+Instantiate a search helper:
 
-my_search_helper = Rawsci::SearchHelper.new(:)
+    my_search_helper = Rawsci::SearchHelper.new(
+      :model => 'Song',
+      :domainname => 'good_songs',       
+      :domainid => 'a1b2c3d4e5f6g7h8i',
+      :region => 'us-east-1',
+      :api_version => '2011-02-01'
+      )
 
+Use it to search over your aws search domain.
+Returns an array of active record models.
+
+    my_search_helper.search('nick drake')
+      => [#<Song id:156, author_id: 13423, title: "Hazey Jane II">,
+          #<Song id:342, author_id: 13423, title: "One of These Things First">]
+
+You can also add boolean conditions:
+
+    my_search_helper.search('nick drake', :bq => 'lyrics: lets sing a song for hazey jane')
+      => [#<Song id:156, author_id: 13423, title: "Hazey Jane II">]
 
 ## Contributing
 
