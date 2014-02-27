@@ -42,6 +42,12 @@ You can also add boolean conditions:
     my_search_helper.search('nick drake', :bq => 'lyrics: lets sing a song for hazey jane')
       => [#<Song id:156, author_id: 13423, title: "Hazey Jane II">]
 
+Dates are a common constraint. Note the date index on cloud search must be a Unix timestamp integer.
+
+    my_search.search('lorde',
+      :date => {:field => 'publish_date',
+        :from => 10.months.ago, :to => Time.now})
+
 ## Contributing
 
 1. Fork it
