@@ -2,7 +2,7 @@ require 'uri'
 require 'active_support/core_ext'
 
 module Rawscsi
-  class SearchHelper < Rawsci::Base
+  class SearchHelper < Rawscsi::Base
     attr_accessor :model, :domainname, 
       :domainid, :region, :api_version, :default_conditions
 
