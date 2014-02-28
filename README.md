@@ -51,7 +51,7 @@ Here's how you limit the results:
 
 Dates are a common constraint. Note the date index on cloud search must be a Unix timestamp integer.
 
-    my_search.search('lorde',
+    search_songs_helper.search('lorde',
       :date => {:name => 'release_date',
         :from => 10.months.ago, :to => Time.now})
 
