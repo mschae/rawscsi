@@ -24,28 +24,35 @@ Instantiate a search helper:
 
     my_search_helper = Rawscsi::SearchHelper.new(
       :model => 'Song',
-      :domainname => 'good_songs',       
+      :domainname => 'good_songs',
       :domainid => 'a1b2c3d4e5f6g7h8i',
       :region => 'us-east-1',
       :api_version => '2011-02-01'
       )
 
-Use it to search over your aws search domain.
-Returns an array of active record models.
+You can set default search conditions
+
+    my_search_helper.default_conditions = {:limit => 10}
+
+Use it to search over an aws search domain. It returns an array of active record models, ordered by CloudSearch's rank score.
 
     my_search_helper.search('nick drake')
-      => [#<Song id:156, author_id: 13423, title: "Hazey Jane II">,
-          #<Song id:342, author_id: 13423, title: "One of These Things First">]
+      => [#<Song id:156, artist_id: 13423, title: "Hazey Jane II">,
+          #<Song id:342, artist_id: 13423, title: "One of These Things First">]
 
-You can also add boolean conditions:
+You can also add boolean conditions. This query only selects radiohead songs that are b-sides. Note this assumes in the good_songs search domain, there is a boolean field named "b_side".
 
-    my_search_helper.search('nick drake', :bq => 'lyrics: lets sing a song for hazey jane')
-      => [#<Song id:156, author_id: 13423, title: "Hazey Jane II">]
+    my_search_helper.search('radiohead', :bq => "b_side:1")
+      => [#<Song id:176, artist_id: 3423, title: "Meeting in the Aisle">..]
+
+Here's how you limit the results:
+
+    my_search_helper.search('nick drake', :limit => 3)
 
 Dates are a common constraint. Note the date index on cloud search must be a Unix timestamp integer.
 
     my_search.search('lorde',
-      :date => {:field => 'publish_date',
+      :date => {:name => 'release_date',
         :from => 10.months.ago, :to => Time.now})
 
 ## Contributing
