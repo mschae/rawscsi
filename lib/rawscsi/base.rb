@@ -1,3 +1,6 @@
+require 'uri'
+require 'net/http'
+
 module Rawscsi
   class Base
     def send_req_to_aws(query_str)

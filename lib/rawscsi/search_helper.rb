@@ -1,5 +1,5 @@
 require 'uri'
-require 'active_support/core_ext'
+require 'net/http'
 
 module Rawscsi
   class SearchHelper < Rawscsi::Base

@@ -1,5 +1,6 @@
 $root = File.expand_path('../../../', __FILE__)
 require "#{$root}/spec_helper"
+require 'active_support/core_ext'
 
 describe Rawscsi::SearchHelper do
   before(:each) do
