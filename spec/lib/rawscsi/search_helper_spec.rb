@@ -4,12 +4,25 @@ require 'active_support/core_ext'
 
 describe Rawscsi::SearchHelper do
   before(:each) do
-    @search_helper = Rawscsi::SearchHelper.new(:model => 'Song',
-      :domainname => 'good_songs',
-      :domainid => '1a2b3c4d5e6f7g8h',
-      :region => 'us-east-1',
-      :api_version => '2011-02-01')
+    Rawscsi.configure do |config|
+      config.model = 'Song'
+      config.domainname = 'good_songs'
+      config.domainid = '1a2b3c4d5e6f7g8h'
+      config.region = 'us-east-1'
+      config.api_version = '2011-02-01'
+    end
+
+    @search_helper = Rawscsi::SearchHelper.new
   end
+
+  it 'configures properly' do
+    Rawscsi.configuration.model.should == 'Song'
+    Rawscsi.configuration.domainname.should == 'good_songs'
+    Rawscsi.configuration.domainid.should == '1a2b3c4d5e6f7g8h'
+    Rawscsi.configuration.region.should == 'us-east-1'
+    Rawscsi.configuration.api_version.should == '2011-02-01'
+  end
+
   it 'instantiates properly' do
     @search_helper.model.should == 'Song'
     @search_helper.domainname.should == 'good_songs'

@@ -3,12 +3,12 @@ require 'net/http'
 
 module Rawscsi
   class SearchHelper < Rawscsi::Base
-    attr_accessor :model, :domainname, 
-      :domainid, :region, :api_version, :default_conditions
+    attr_accessor :model, :domainname, :domainid, :region, :api_version, :default_conditions
 
-    def initialize(options)
-      options.each do |key, value|
-        self.send((key.to_s+'=').to_sym, value)
+    def initialize
+      config = Rawscsi::configuration
+      [:model, :domainname, :domainid, :region, :api_version].each do |key|
+        self.send((key.to_s+'=').to_sym, config.send(key))
       end
       self.default_conditions = {}
     end
