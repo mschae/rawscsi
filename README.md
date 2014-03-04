@@ -22,7 +22,7 @@ Or install it yourself as:
 
 Configure the search helper:
 
-    Rawscsi::SearchHelper.configure do |config|
+    Rawscsi.configure do |config|
       config.model = 'Article'
       config.domainname = 'prod-br-articles'
       config.domainid = 'puvb75tayhp4vxtqrk52ear3ty'
