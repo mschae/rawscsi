@@ -22,4 +22,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
   spec.add_development_dependency "active_support/core_ext"
   spec.add_development_dependency "active_record"
+  spec.add_dependency "httparty", '~> 0.12.0'
 end

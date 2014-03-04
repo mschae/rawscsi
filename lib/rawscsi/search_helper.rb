@@ -1,5 +1,4 @@
 require 'uri'
-require 'net/http'
 
 module Rawscsi
   class SearchHelper < Rawscsi::Base
@@ -21,35 +20,31 @@ module Rawscsi
     end
 
     def bq_conditions(options)
-      cond_array = ['&bq=(and']
+      cond_array = ['(and']
       cond_array << date_condition(options[:date]) if options[:date]
-      cond_array << options[:bq] if options[:bq]
+      cond_array += Array(options[:bq]) if options[:bq]
       cond_array << ')'
       cond_array.compact.join(' ')
     end
 
     def conditions(options)
-      cond_str = ''
-      cond_str << bq_conditions(options) if options[:date] || options[:bq]
-      cond_str << "&size=#{options[:limit]}" if options[:limit]
-      cond_str
-    end
-
-    def url(query, options={})
-      options = default_conditions.merge(options)
-      sep_url = ''
-      sep_url << "http://search-"
-      sep_url << "#{domainname}-#{domainid}.#{region}."
-      sep_url << "cloudsearch.amazonaws.com/"
-      sep_url << "#{api_version}/search?"
-      sep_url << "q=#{query}"
-      sep_url << conditions(options)
-      URI.escape(sep_url)
+      conds = {}
+      conds.merge!({:bq => bq_conditions(options)}) if options[:date] || options[:bq]
+      conds.merge!({:size => options[:limit]}) if options[:limit]
+      conds
     end
 
     def search(query, options)
-      results = send_req_to_aws(url(query, options))
+      results = send_req_to_aws(url, query, options)
       get_ar_objects(results)
+    end
+
+    def url
+      sep_url =  "http://search-"
+      sep_url << "#{domainname}-#{domainid}.#{region}."
+      sep_url << "cloudsearch.amazonaws.com/"
+      sep_url << "#{api_version}/search"
+      URI.escape(sep_url)
     end
   end
 end

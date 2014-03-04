@@ -1,12 +1,9 @@
-require 'uri'
-require 'net/http'
+require 'httparty'
 
 module Rawscsi
   class Base
-    def send_req_to_aws(query_str)
-      url = URI.parse(query_str)
-      req = Net::HTTP::Get.new(url.to_s)
-      Net::HTTP.start(url.host, url.port) {|http| http.request(req)}
+    def send_req_to_aws(url, query, options)
+      HTTParty.get url, query: options.merge(q: query)
     end
 
     def collect_ids(response)
@@ -16,7 +13,18 @@ module Rawscsi
 
     def collect_ar(id_array)
       return [] if id_array.empty?
-      model.constantize.find_all_by_id(id_array, :order => "field(id, #{id_array.join(',')})")
+      id_array.collect!(&:to_i)
+      results =
+        if ActiveRecord::VERSION::MAJOR > 2
+          klass.where(:id => id_array).to_a
+        else
+          klass.find_all_by_id(id_array)
+        end
+      results.index_by(&:id).slice(*id_array).values
+    end
+
+    def klass
+      model.constantize
     end
 
     def get_ar_objects(response)
