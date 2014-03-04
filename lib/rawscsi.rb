@@ -1,9 +1,9 @@
-$root = File.expand_path('../../', __FILE__)
-require "#{$root}/lib/rawscsi/version"
-require "#{$root}/lib/rawscsi/base"
-require "#{$root}/lib/rawscsi/search_helper"
-
 module Rawscsi
+  autoload :Version,      'rawscsi/version'
+  autoload :Base,         'rawscsi/base'
+  autoload :SearchHelper, 'rawscsi/search_helper'
+  autoload :Searchable,   'rawscsi/searchable'
+
   class Configuration
     attr_accessor :model, :domainname, :domainid, :region, :api_version
   end
