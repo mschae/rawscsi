@@ -38,40 +38,42 @@ describe Rawscsi::SearchHelper do
 
   context 'query url' do
     it 'constructs basic url correctly' do
-      url = @search_helper.url('nick drake')
-      url.should == "http://search-good_songs-1a2b3c4d5e6f7g8h.us-east-1.cloudsearch.amazonaws.com/2011-02-01/search?q=nick%20drake"
+      url = @search_helper.url
+      url.should == "http://search-good_songs-1a2b3c4d5e6f7g8h.us-east-1.cloudsearch.amazonaws.com/2011-02-01/search"
     end
+  end
 
-    it 'constructs url with limit correctly' do
-      url = @search_helper.url('mazzy star', :limit => 10)
-      url.should == "http://search-good_songs-1a2b3c4d5e6f7g8h.us-east-1.cloudsearch.amazonaws.com/2011-02-01/search?q=mazzy%20star&size=10"
-    end
-
-    it 'constructs url with date correctly' do
+  context '.bq_conditions' do
+    it 'constructs date correctly' do
       one_week_ago = 1.week.ago
       now = Time.now
-      url = @search_helper.url('lorde', 
+      conditions = @search_helper.bq_conditions(
         :date => { :name => :release_date,
-          :from => one_week_ago,
-          :to => now})
-      url.should include("&bq=(and%20release_date:#{one_week_ago.to_i}..#{now.to_i}")
+                   :from => one_week_ago,
+                   :to => now})
+      conditions.should == "(and release_date:#{one_week_ago.to_i}..#{now.to_i})"
     end
 
     it 'constructs url with boolean conditions correctly' do
-      url = @search_helper.url('radiohead', :bq => 'b_side:1')
-      url.should include('&bq=(and%20b_side:1%20)')
+      url = @search_helper.bq_conditions(:bq => 'b_side:1')
+      url.should == '(and b_side:1)'
     end
 
+  end
+  context '.conditions' do
     it 'constructs url for multiple conditions correctly' do
       one_week_ago = 1.week.ago
       now = Time.now
-      url = @search_helper.url('radiohead', :bq => 'b_side:1', :limit => 5,
-        :date => {
-          :name => :release_date,
-          :from => one_week_ago,
-          :to => now
-          })
-      url.should include("&bq=(and%20release_date:#{one_week_ago.to_i}..#{now.to_i}%20b_side:1%20)&size=5")
+      conditions = @search_helper.conditions(:bq => 'b_side:1', :limit => 5,
+                                             :date => {
+        :name => :release_date,
+        :from => one_week_ago,
+        :to => now
+      })
+      conditions.should == {
+        bq: "(and release_date:#{one_week_ago.to_i}..#{now.to_i} b_side:1)",
+        size: 5,
+      }
     end
   end
 end

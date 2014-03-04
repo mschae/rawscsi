@@ -20,11 +20,10 @@ module Rawscsi
     end
 
     def bq_conditions(options)
-      cond_array = ['(and']
+      cond_array = ['and']
       cond_array << date_condition(options[:date]) if options[:date]
       cond_array += Array(options[:bq]) if options[:bq]
-      cond_array << ')'
-      cond_array.compact.join(' ')
+      ['(', cond_array.compact.join(' '), ')'].join
     end
 
     def conditions(options)
