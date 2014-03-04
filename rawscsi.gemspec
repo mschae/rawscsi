@@ -21,7 +21,13 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec"
-  spec.add_development_dependency "activesupport"
-  spec.add_development_dependency "activerecord"
-  spec.add_dependency "httparty"
+  if Gem::Version.new(RUBY_VERSION) > Gem::Version.new('1.8.7')
+    spec.add_development_dependency "activesupport", "> 2.0"
+    spec.add_development_dependency "activerecord", "> 2.0"
+    spec.add_dependency "httparty", "~> 0.11"
+  else
+    spec.add_development_dependency "activesupport", "2.0"
+    spec.add_development_dependency "activerecord", "2.0"
+    spec.add_dependency "httparty", "0.8"
+  end
 end

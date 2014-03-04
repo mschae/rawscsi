@@ -3,12 +3,11 @@ require 'httparty'
 module Rawscsi
   class Base
     def send_req_to_aws(url, query, options)
-      HTTParty.get url, query: options.merge(q: query)
+      HTTParty.get url, :query => options.merge(:q => query)
     end
 
     def collect_ids(response)
-      response_hash = JSON.parse(response.body)
-      response_hash['hits']['hit'].collect {|result| result['id']}
+      response['hits']['hit'].collect {|result| result['id']}
     end
 
     def collect_ar(id_array)

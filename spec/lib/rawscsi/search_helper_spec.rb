@@ -71,8 +71,8 @@ describe Rawscsi::SearchHelper do
         :to => now
       })
       conditions.should == {
-        bq: "(and release_date:#{one_week_ago.to_i}..#{now.to_i} b_side:1)",
-        size: 5,
+        :bq => "(and release_date:#{one_week_ago.to_i}..#{now.to_i} b_side:1)",
+        :size => 5,
       }
     end
   end
