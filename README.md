@@ -20,15 +20,19 @@ Or install it yourself as:
 
 ## Usage
 
-Instantiate a search helper:
+Configure the search helper:
 
-    search_songs_helper = Rawscsi::SearchHelper.new(
-      :model => 'Song',
-      :domainname => 'good_songs',
-      :domainid => 'a1b2c3d4e5f6g7h8i',
-      :region => 'us-east-1',
-      :api_version => '2011-02-01'
-      )
+    Rawscsi::SearchHelper.configure do |config|
+      config.model = 'Article'
+      config.domainname = 'prod-br-articles'
+      config.domainid = 'puvb75tayhp4vxtqrk52ear3ty'
+      config.region = 'us-east-1'
+      config.api_version = '2011-02-01'
+    end
+
+Instantiate a search helper
+   search_songs_helper = Rawscsi::SearchHelper.new
+
 
 You can set default search conditions
 
